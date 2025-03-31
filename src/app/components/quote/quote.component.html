@@ -1,0 +1,25 @@
+<div class="quote-container">
+  <div *ngIf="loading" class="quote-loading">
+    <i class="fas fa-spinner fa-spin"></i>
+    Carregando citação...
+  </div>
+
+  <div *ngIf="error" class="quote-error">
+    <i class="fas fa-exclamation-circle"></i>
+    Não foi possível carregar a citação.
+    <button (click)="fetchQuote()" class="btn btn-link">
+      Tentar novamente
+    </button>
+  </div>
+
+  <div *ngIf="!loading && !error && quote" class="quote-content">
+    <blockquote>
+      <p>{{ quote.quote }}</p>
+      <footer>— {{ quote.author }}</footer>
+    </blockquote>
+    <button (click)="fetchQuote()" class="btn btn-link refresh-button">
+      <i class="fas fa-sync-alt"></i>
+      Nova citação
+    </button>
+  </div>
+</div> 

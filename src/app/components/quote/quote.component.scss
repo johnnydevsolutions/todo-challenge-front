@@ -1,0 +1,53 @@
+.quote-container {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0 2rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.quote-loading,
+.quote-error {
+  color: #6c757d;
+  font-size: 0.9rem;
+  
+  i {
+    margin-right: 0.5rem;
+  }
+}
+
+.quote-content {
+  blockquote {
+    margin: 0;
+    padding: 0;
+    border: none;
+    
+    p {
+      font-size: 1.1rem;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+      font-style: italic;
+    }
+    
+    footer {
+      color: #6c757d;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+.refresh-button {
+  margin-top: 1rem;
+  color: #007bff;
+  
+  i {
+    margin-right: 0.5rem;
+  }
+  
+  &:hover {
+    color: #0056b3;
+    text-decoration: none;
+  }
+} 

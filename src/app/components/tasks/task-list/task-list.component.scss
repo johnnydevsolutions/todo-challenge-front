@@ -32,6 +32,7 @@ h1 {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   padding: 2rem;
   margin-top: 2.5rem;
+  margin-bottom: 4rem;
 }
 
 // Estilo dos botões de filtro
@@ -62,13 +63,26 @@ h1 {
   }
 }
 
-// Estilo do switch de status
-.form-check.form-switch {
+// Estilo do checkbox de status
+.form-check {
+  margin: 0;
+  
   .form-check-input {
+    margin-right: 0.5rem;
+
     &:checked {
-      background-color: #28a745;
-      border-color: #28a745;
+      background-color: #198754; // Cor verde do Bootstrap
+      border-color: #198754;
     }
+
+    &:focus {
+      border-color: #198754;
+      box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+    }
+  }
+  
+  .form-check-label {
+    color: #2c3e50;
   }
 }
 
@@ -77,6 +91,7 @@ h1 {
   overflow: hidden;
   border: 1px solid #e9ecef;
   border-radius: 6px;
+  margin-bottom: 2rem;
   
   .table {
     margin-bottom: 0;
@@ -91,6 +106,7 @@ h1 {
         color: #2c3e50;
         font-weight: 500;
         padding: 12px;
+        text-align: center;
       }
     }
     
@@ -102,6 +118,33 @@ h1 {
         
         &:hover {
           background-color: #f0f4ff;
+        }
+
+        td {
+          text-align: center;
+        }
+
+        // Centraliza a célula de status
+        td:nth-child(3) {
+          .form-check {
+            display: inline-flex;
+            justify-content: center;
+            width: 100%;
+          }
+        }
+
+        // Centraliza a célula de ações
+        td:last-child {
+          // Centraliza os botões dentro da célula
+          .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            margin: 0 3px;
+          }
         }
       }
     }
