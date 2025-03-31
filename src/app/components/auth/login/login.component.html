@@ -22,28 +22,28 @@
                 formControlName="email"
                 class="form-control"
                 [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}"
-                placeholder="Enter your email"
+                placeholder="Digite seu email"
               />
               <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="invalid-feedback">
-                <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</div>
-                <div *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</div>
+                <div *ngIf="loginForm.get('email')?.errors?.['required']">O email é obrigatório</div>
+                <div *ngIf="loginForm.get('email')?.errors?.['email']">Por favor, insira um email válido</div>
               </div>
             </div>
             
             <!-- Password input -->
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
+              <label for="password" class="form-label">Senha</label>
               <input
                 type="password"
                 id="password"
                 formControlName="password"
                 class="form-control"
                 [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
-                placeholder="Enter your password"
+                placeholder="Digite sua senha"
               />
               <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="invalid-feedback">
-                <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</div>
-                <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</div>
+                <div *ngIf="loginForm.get('password')?.errors?.['required']">A senha é obrigatória</div>
+                <div *ngIf="loginForm.get('password')?.errors?.['minlength']">A senha deve ter pelo menos 6 caracteres</div>
               </div>
             </div>
             

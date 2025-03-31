@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -12,6 +12,8 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   errorMessage: string = '';
   loading: boolean = false;
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
   
   constructor(
     private fb: FormBuilder,
@@ -32,33 +34,46 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
     }, {
-      validators: this.passwordMatchValidator
+      validator: this.passwordMatchValidator
     });
   }
 
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
   // Custom validator to check if password and confirm password match
-  passwordMatchValidator(form: FormGroup) {
-    const password = form.get('password')?.value;
-    const confirmPassword = form.get('confirmPassword')?.value;
+  private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
     
-    if (password === confirmPassword) {
+    if (!password || !confirmPassword) {
       return null;
     }
     
-    return { passwordMismatch: true };
+    return password.value === confirmPassword.value ? null : { passwordMismatch: true };
   }
 
   onSubmit(): void {
     if (this.registerForm.invalid) {
+      // Marca todos os campos como tocados para mostrar os erros
+      Object.keys(this.registerForm.controls).forEach(key => {
+        const control = this.registerForm.get(key);
+        control?.markAsTouched();
+      });
       return;
     }
 
     this.loading = true;
     this.errorMessage = '';
     
-    const { name, email, password } = this.registerForm.value;
+    const { name, email, password, confirmPassword } = this.registerForm.value;
     
-    this.authService.register(name, email, password)
+    this.authService.register(name, email, password, confirmPassword)
       .subscribe({
         next: () => {
           this.loading = false;
@@ -69,7 +84,7 @@ export class RegisterComponent implements OnInit {
         },
         error: (error) => {
           this.loading = false;
-          this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
+          this.errorMessage = error.error?.message || 'Falha no cadastro. Por favor, tente novamente.';
         }
       });
   }
