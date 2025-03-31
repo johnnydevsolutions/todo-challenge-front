@@ -27,8 +27,6 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
-    
-    // Check if we're in edit mode (URL has an ID parameter)
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe(params => {
@@ -79,8 +77,11 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       ...this.taskForm.value
     };
 
+    if (!this.isEditMode) {
+      taskData.completed = false;
+    }
+
     if (this.isEditMode && this.taskId) {
-      // Update existing task
       this.taskService.updateTask(this.taskId, taskData)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -90,12 +91,11 @@ export class TaskFormComponent implements OnInit, OnDestroy {
           },
           error: (error) => {
             this.loading = false;
-            this.errorMessage = 'Failed to update task. Please try again.';
+            this.errorMessage = 'Falha ao atualizar tarefa. Por favor, tente novamente.';
             console.error('Error updating task:', error);
           }
         });
     } else {
-      // Create new task
       this.taskService.createTask(taskData as Omit<Task, 'id'>)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -105,7 +105,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
           },
           error: (error) => {
             this.loading = false;
-            this.errorMessage = 'Failed to create task. Please try again.';
+            this.errorMessage = 'Falha ao criar tarefa. Por favor, tente novamente.';
             console.error('Error creating task:', error);
           }
         });

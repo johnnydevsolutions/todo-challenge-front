@@ -14,9 +14,12 @@ interface LoginResponse {
 }
 
 interface RegisterResponse {
-  id: number;
-  email: string;
-  name: string;
+  access_token: string;
+  user: {
+    id: number;
+    email: string;
+    name: string;
+  };
 }
 
 @Injectable({
@@ -64,7 +67,13 @@ export class AuthService {
       email, 
       password,
       passwordConfirmation
-    });
+    }).pipe(
+      tap((response) => {
+        localStorage.setItem('token', response.access_token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        this.currentUserSubject.next(response.user);
+      })
+    );
   }
 
   logout(): void {
@@ -85,4 +94,4 @@ export class AuthService {
   getCurrentUser(): any {
     return this.currentUserSubject.value;
   }
-} 
+}

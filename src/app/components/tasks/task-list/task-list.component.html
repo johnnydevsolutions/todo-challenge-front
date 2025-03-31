@@ -1,12 +1,12 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>My Tasks</h1>
+    <h1>Minhas Tarefas</h1>
     <div>
       <button class="btn btn-primary me-2" (click)="createTask()">
-        <i class="fas fa-plus"></i> New Task
+        <i class="fas fa-plus"></i> Nova Tarefa
       </button>
       <button class="btn btn-outline-danger" (click)="logout()">
-        <i class="fas fa-sign-out-alt"></i> Logout
+        <i class="fas fa-sign-out-alt"></i> Sair
       </button>
     </div>
   </div>
@@ -17,28 +17,28 @@
       class="btn" 
       [ngClass]="currentFilter === 'all' ? 'btn-primary' : 'btn-outline-primary'"
       (click)="applyFilter('all')">
-      All Tasks
+      Todas as Tarefas
     </button>
     <button 
       class="btn" 
       [ngClass]="currentFilter === 'active' ? 'btn-primary' : 'btn-outline-primary'"
       (click)="applyFilter('active')">
-      Active
+      Pendentes
     </button>
     <button 
       class="btn" 
       [ngClass]="currentFilter === 'completed' ? 'btn-primary' : 'btn-outline-primary'"
       (click)="applyFilter('completed')">
-      Completed
+      Concluídas
     </button>
   </div>
 
   <!-- Loading indicator -->
   <div *ngIf="loading" class="text-center my-5">
     <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+      <span class="visually-hidden">Carregando...</span>
     </div>
-    <p class="mt-2">Loading tasks...</p>
+    <p class="mt-2">Carregando tarefas...</p>
   </div>
 
   <!-- Error message -->
@@ -47,21 +47,21 @@
   </div>
 
   <!-- Task list -->
-  <div *ngIf="!loading && filteredTasks.length > 0" class="card">
+  <div class="card">
     <div class="card-body p-0">
       <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Description</th>
+            <th>Título</th>
+            <th>Descrição</th>
             <th>Status</th>
-            <th>Actions</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let task of filteredTasks">
+          <tr *ngFor="let task of filteredTasks" [ngClass]="{'completed-task': task.completed}">
             <td>{{ task.title }}</td>
-            <td>{{ task.description || 'No description' }}</td>
+            <td>{{ task.description || 'Sem descrição' }}</td>
             <td>
               <div class="form-check form-switch">
                 <input 
@@ -71,7 +71,7 @@
                   (change)="toggleTaskStatus(task)"
                   id="status-{{ task.id }}">
                 <label class="form-check-label" for="status-{{ task.id }}">
-                  {{ task.completed ? 'Completed' : 'Active' }}
+                  {{ task.completed ? 'Concluída' : 'Pendente' }}
                 </label>
               </div>
             </td>
@@ -95,18 +95,16 @@
   </div>
 
   <!-- Empty state -->
-  <div *ngIf="!loading && filteredTasks.length === 0" class="card">
-    <div class="card-body text-center py-5">
-      <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
-      <h4>No tasks found</h4>
-      <p class="text-muted">
-        {{ currentFilter === 'all' ? 'You don\'t have any tasks yet.' : 
-           currentFilter === 'active' ? 'You don\'t have any active tasks.' : 
-           'You don\'t have any completed tasks.' }}
-      </p>
-      <button class="btn btn-primary mt-3" (click)="createTask()">
-        <i class="fas fa-plus"></i> Create a Task
-      </button>
-    </div>
+  <div *ngIf="!loading && filteredTasks.length === 0" class="text-center py-5">
+    <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
+    <h4>Nenhuma tarefa encontrada</h4>
+    <p class="text-muted">
+      {{ currentFilter === 'all' ? 'Você ainda não tem nenhuma tarefa.' : 
+         currentFilter === 'active' ? 'Você não tem nenhuma tarefa pendente.' : 
+         'Você não tem nenhuma tarefa concluída.' }}
+    </p>
+    <button class="btn btn-primary mt-3" (click)="createTask()">
+      <i class="fas fa-plus"></i> Criar uma Tarefa
+    </button>
   </div>
 </div>

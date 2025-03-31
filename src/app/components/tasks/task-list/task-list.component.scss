@@ -1,0 +1,165 @@
+.completed-task {
+  td {
+    text-decoration: line-through;
+    opacity: 0.6;
+    color: #6c757d;
+  }
+
+  // Mantém os botões e o checkbox com opacidade normal
+  .btn-group, .form-check {
+    opacity: 1;
+    text-decoration: none;
+  }
+
+  // Remove o risco do texto do status
+  .form-check-label {
+    text-decoration: none;
+  }
+}
+
+// Estilo do título
+h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+// Container principal
+.container {
+  background: linear-gradient(to bottom right, #f8faff, #ffffff);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  margin-top: 2.5rem;
+}
+
+// Estilo dos botões de filtro
+.btn-group.mb-4 {
+  margin-bottom: 1.5rem !important;
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border-color: #dee2e6;
+    
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &.btn-primary {
+      background-color: #0d6efd;
+      border-color: #0d6efd;
+    }
+
+    &.btn-outline-primary {
+      &:hover {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+      }
+    }
+  }
+}
+
+// Estilo do switch de status
+.form-check.form-switch {
+  .form-check-input {
+    &:checked {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+  }
+}
+
+// Correção das bordas da tabela
+.card {
+  overflow: hidden;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  
+  .table {
+    margin-bottom: 0;
+    border-collapse: collapse;
+    
+    thead {
+      background-color: #f8f9fa;
+      
+      th {
+        border-top: none;
+        background-color: #e8f1ff;
+        color: #2c3e50;
+        font-weight: 500;
+        padding: 12px;
+      }
+    }
+    
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: #f8faff;
+        }
+        
+        &:hover {
+          background-color: #f0f4ff;
+        }
+      }
+    }
+    
+    th, td {
+      border: 1px solid #dee2e6;
+      padding: 12px;
+      vertical-align: middle;
+    }
+    
+    th:first-child, td:first-child {
+      border-left: none;
+    }
+    
+    th:last-child, td:last-child {
+      border-right: none;
+    }
+  }
+}
+
+// Estilo dos botões de ação
+.btn-group-sm {
+  .btn {
+    padding: 0.4rem 0.6rem;
+    margin: 0 2px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    
+    &:hover {
+      transform: translateY(-1px);
+    }
+    
+    i {
+      font-size: 0.875rem;
+    }
+  }
+  
+  .btn-outline-info {
+    color: #0dcaf0;
+    &:hover {
+      background-color: #0dcaf0;
+      color: white;
+    }
+  }
+  
+  .btn-outline-primary {
+    color: #0d6efd;
+    &:hover {
+      background-color: #0d6efd;
+      color: white;
+    }
+  }
+  
+  .btn-outline-danger {
+    color: #dc3545;
+    &:hover {
+      background-color: #dc3545;
+      color: white;
+    }
+  }
+}

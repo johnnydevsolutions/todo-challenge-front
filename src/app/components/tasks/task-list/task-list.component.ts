@@ -1,13 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Task, TaskService } from '../../../core/services/task.service';
 import { AuthService } from '../../../core/services/auth.service';
-
-// Import DataTables types 
-declare var require: any;
-declare var $: any;
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-task-list',
@@ -15,6 +12,9 @@ declare var $: any;
   styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent implements OnInit, OnDestroy {
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement!: DataTableDirective;
+
   tasks: Task[] = [];
   filteredTasks: Task[] = [];
   loading: boolean = true;
@@ -23,6 +23,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   dtOptions: any = {};
   dtTrigger: Subject<any> = new Subject<any>();
   private destroy$ = new Subject<void>();
+  private isTableInitialized = false;
 
   constructor(
     private taskService: TaskService,
@@ -35,15 +36,25 @@ export class TaskListComponent implements OnInit, OnDestroy {
     this.loadTasks();
   }
 
-  setupDataTable(): void {
+  private setupDataTable(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
-      responsive: true,
-      order: [[0, 'asc']],
-      columnDefs: [
-        { orderable: false, targets: [3] } // Disable sorting for action column
-      ]
+      dom: 'rtip',
+      language: {
+        search: 'Buscar:',
+        lengthMenu: 'Mostrar _MENU_ registros por página',
+        zeroRecords: 'Nenhum registro encontrado',
+        info: 'Mostrando página _PAGE_ de _PAGES_',
+        infoEmpty: 'Nenhum registro disponível',
+        infoFiltered: '(filtrado de _MAX_ registros no total)',
+        paginate: {
+          first: 'Primeira',
+          last: 'Última',
+          next: 'Próxima',
+          previous: 'Anterior'
+        }
+      }
     };
   }
 
@@ -56,15 +67,26 @@ export class TaskListComponent implements OnInit, OnDestroy {
           this.tasks = tasks;
           this.applyFilter(this.currentFilter);
           this.loading = false;
-          // Trigger DataTable render/refresh
-          this.dtTrigger.next(null);
+          this.reloadTable();
         },
         error: (error) => {
           this.loading = false;
-          this.errorMessage = 'Failed to load tasks. Please try again.';
+          this.errorMessage = 'Falha ao carregar tarefas. Por favor, tente novamente.';
           console.error('Error loading tasks:', error);
         }
       });
+  }
+
+  private reloadTable(): void {
+    if (this.isTableInitialized) {
+      this.dtElement.dtInstance.then((dtInstance: any) => {
+        dtInstance.destroy();
+        this.dtTrigger.next(null);
+      });
+    } else {
+      this.isTableInitialized = true;
+      this.dtTrigger.next(null);
+    }
   }
 
   applyFilter(filter: 'all' | 'active' | 'completed'): void {
@@ -81,6 +103,11 @@ export class TaskListComponent implements OnInit, OnDestroy {
         this.filteredTasks = [...this.tasks];
         break;
     }
+
+    // Se a tabela já foi inicializada, recarrega-a
+    if (this.isTableInitialized) {
+      this.reloadTable();
+    }
   }
 
   toggleTaskStatus(task: Task): void {
@@ -91,7 +118,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (updatedTask) => {
-          // Update the task in the local array
           const index = this.tasks.findIndex(t => t.id === task.id);
           if (index !== -1) {
             this.tasks[index] = updatedTask;
@@ -105,13 +131,12 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   deleteTask(taskId: number): void {
-    if (confirm('Are you sure you want to delete this task?')) {
+    if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
       this.taskService.deleteTask(taskId)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            // Remove the task from the local array
-            this.tasks = this.tasks.filter(task => task.id !== taskId);
+            this.tasks = this.tasks.filter(t => t.id !== taskId);
             this.applyFilter(this.currentFilter);
           },
           error: (error) => {

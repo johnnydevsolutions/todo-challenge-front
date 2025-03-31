@@ -77,10 +77,8 @@ export class RegisterComponent implements OnInit {
       .subscribe({
         next: () => {
           this.loading = false;
-          // After successful registration, redirect to login
-          this.router.navigate(['/login'], { 
-            queryParams: { registered: 'true' }
-          });
+          // After successful registration, redirect to tasks page
+          this.router.navigate(['/tasks']);
         },
         error: (error) => {
           this.loading = false;

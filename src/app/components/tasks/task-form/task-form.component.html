@@ -3,15 +3,15 @@
     <div class="col-lg-8">
       <div class="card shadow">
         <div class="card-header bg-primary text-white">
-          <h3>{{ isEditMode ? 'Edit Task' : 'Create New Task' }}</h3>
+          <h3>{{ isEditMode ? 'Editar Tarefa' : 'Criar Nova Tarefa' }}</h3>
         </div>
         <div class="card-body">
           <!-- Loading indicator -->
           <div *ngIf="loading" class="text-center my-5">
             <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
+              <span class="visually-hidden">Carregando...</span>
             </div>
-            <p class="mt-2">{{ isEditMode ? 'Loading task data...' : 'Preparing form...' }}</p>
+            <p class="mt-2">{{ isEditMode ? 'Carregando dados da tarefa...' : 'Preparando formulário...' }}</p>
           </div>
 
           <!-- Error message -->
@@ -22,48 +22,48 @@
           <form *ngIf="!loading" [formGroup]="taskForm" (ngSubmit)="onSubmit()">
             <!-- Title input -->
             <div class="mb-3">
-              <label for="title" class="form-label">Task Title *</label>
+              <label for="title" class="form-label">Título da Tarefa *</label>
               <input 
                 type="text" 
                 id="title" 
                 formControlName="title" 
                 class="form-control"
                 [ngClass]="{'is-invalid': taskForm.get('title')?.invalid && taskForm.get('title')?.touched}"
-                placeholder="Enter task title"
+                placeholder="Digite o título da tarefa"
               >
               <div *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched" class="invalid-feedback">
-                <div *ngIf="taskForm.get('title')?.errors?.['required']">Title is required</div>
-                <div *ngIf="taskForm.get('title')?.errors?.['minlength']">Title must be at least 3 characters</div>
+                <div *ngIf="taskForm.get('title')?.errors?.['required']">Título é obrigatório</div>
+                <div *ngIf="taskForm.get('title')?.errors?.['minlength']">Título deve ter pelo menos 3 caracteres</div>
               </div>
             </div>
 
             <!-- Description input -->
             <div class="mb-3">
-              <label for="description" class="form-label">Description</label>
+              <label for="description" class="form-label">Descrição</label>
               <textarea 
                 id="description" 
                 formControlName="description" 
                 class="form-control" 
                 rows="4"
-                placeholder="Enter task description (optional)"
+                placeholder="Digite a descrição da tarefa (opcional)"
               ></textarea>
             </div>
 
-            <!-- Completed checkbox -->
-            <div class="mb-4 form-check">
+            <!-- Completed checkbox - only show in edit mode -->
+            <div *ngIf="isEditMode" class="mb-4 form-check">
               <input 
                 type="checkbox" 
                 id="completed" 
                 formControlName="completed" 
                 class="form-check-input"
               >
-              <label class="form-check-label" for="completed">Mark as completed</label>
+              <label class="form-check-label" for="completed">Marcar como concluída</label>
             </div>
 
             <!-- Action buttons -->
             <div class="d-flex justify-content-between">
               <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
-                <i class="fas fa-times"></i> Cancel
+                <i class="fas fa-times"></i> Cancelar
               </button>
               <button 
                 type="submit" 
@@ -71,7 +71,7 @@
                 [disabled]="taskForm.invalid || loading"
               >
                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                <i class="fas fa-save" *ngIf="!loading"></i> {{ isEditMode ? 'Update Task' : 'Create Task' }}
+                <i class="fas fa-save" *ngIf="!loading"></i> {{ isEditMode ? 'Atualizar Tarefa' : 'Criar Tarefa' }}
               </button>
             </div>
           </form>
