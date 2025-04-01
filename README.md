@@ -20,6 +20,7 @@ Aplicação web para gerenciamento de tarefas (To-Do List) com interface moderna
   - Filtragem por status (pendente/concluída)
 
 - **Design responsivo**:
+  - Otimizado para desktops, tablets e smartphones
   - Layout adaptável a diferentes tamanhos de tela
 
 - **Citações motivacionais**:
