@@ -1,27 +1,79 @@
-# TodoFront
+# Todo List App - Front-end
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.14.
+Aplicação web para gerenciamento de tarefas (To-Do List) com interface moderna e responsiva.
 
-## Development server
+## Tecnologias Utilizadas
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Angular**: Framework front-end para construção de aplicações SPA
+- **TypeScript**: Linguagem de programação tipada
+- **Bootstrap**: Framework CSS para design responsivo
+- **Angular Material**: Componentes de UI seguindo o Material Design
+- **RxJS**: Biblioteca para programação reativa
 
-## Code scaffolding
+## Funcionalidades
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Interface de usuário intuitiva**:
+  - Tela de login e registro com validações
+  - Dashboard com listagem de tarefas
+  - Criação, edição e exclusão de tarefas
+  - Marcação de tarefas como concluídas
+  - Filtragem por status (pendente/concluída)
 
-## Build
+- **Design responsivo**:
+  - Layout adaptável a diferentes tamanhos de tela
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Citações motivacionais**:
+  - Exibição de citações motivacionais aleatórias
 
-## Running unit tests
+## Como Executar
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Pré-requisitos
 
-## Running end-to-end tests
+- Node.js (v16+)
+- npm ou yarn
+- Angular CLI (v17)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Passos para Execução
 
-## Further help
+1. **Clone o repositório**
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+2. **Instale as dependências**:
+   ```bash
+   npm install
+   ```
+
+3. **Execute a aplicação**:
+   ```bash
+   ng serve
+   ```
+
+4. **Acesse a aplicação**:
+   - Abra o navegador e acesse [http://localhost:4200](http://localhost:4200)
+   - Nota: Certifique-se que o backend esteja rodando em http://localhost:3000
+
+## Estrutura do Projeto
+
+- `/src/app/components`: Componentes reutilizáveis da aplicação
+- `/src/app/pages`: Páginas principais da aplicação
+- `/src/app/services`: Serviços para comunicação com a API
+- `/src/app/models`: Modelos de dados/interfaces
+- `/src/app/guards`: Guards para proteção de rotas
+
+## Integração com Backend
+
+Esta aplicação se conecta com uma API RESTful construída em NestJS:
+- Base URL: http://localhost:3000
+- Endpoints principais:
+  - `/auth`: Autenticação e registro
+  - `/tasks`: Gerenciamento de tarefas
+  - `/quotes`: Obtenção de citações motivacionais
+
+## Observações para Avaliação
+
+- Implementação de autenticação com JWT
+- Gerenciamento de estado global
+- Tratamento de erros e feedback ao usuário
+- Validação de formulários
+- Design responsivo
+- Componentes reutilizáveis
+- Padrão de arquitetura seguindo boas práticas Angular
